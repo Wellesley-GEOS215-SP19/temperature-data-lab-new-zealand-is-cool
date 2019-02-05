@@ -59,8 +59,7 @@ tempMax = max(tempData)
 %labels. Use the commands "axis", "xlim", and/or "ylim" if you want to
 %change from the automatic x or y axis limits.
     figure(1); clf
-    errorbar(tempMean,tempStd)
-    
+    errorbar(
 % --> (note that this may take multiple lines of code)
 
 %% Fill missing values with the monthly climatological value
