@@ -75,19 +75,21 @@ tempMax = max(tempData);
 for i = 1:12
     %use the find and isnan functions to find the index location in the
     %array of data points with NaN values
-    indnan = find(isnan(tempData(:,i)) == 1) %check to make sure you understand what is happening in this line
+    indnan = find(isnan(tempData(:,i)) == 1); %check to make sure you understand what is happening in this line
     %now fill the corresponding values with the climatological mean
-%     tempData(indnan) = tempMean(i)
+     tempData(indnan,i) = tempMean(i);
+
 end
 
 %% Calculate the annual mean temperature for each year
-% --> 
+AnMean = mean(tempData')
 
 %% Calculate the temperature anomaly for each year, compared to the 1981-2000 mean
 % The anomaly is the difference from the mean over some baseline period. In
 % this case, we will pick the baseline period as 1981-2000 for consistency
 % across each station (though note that this is a choice we are making, and
 % that different temperature analysese often pick different baselines!)
+
 
 %Calculate the annual mean temperature over the period from 1981-2000
   %Use the find function to find rows contain data where stationdata.Year is between 1981 and 2000
