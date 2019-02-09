@@ -100,9 +100,10 @@ AnnualMean = mean(tempData,2); %mean(matrix, dimension), if dimension is 2 then 
 
 %Calculate the annual mean temperature over the period from 1981-2000
   %Use the find function to find rows contain data where stationdata.Year is between 1981 and 2000
-find(stationdata.Year>1980 & stationdata.Year<2001)
+indTemp = find(stationdata.Year>1980 & stationdata.Year<2001) %I created a variable here b/c I thought it would make it easier 
+% to access if the information is needed again
 
-Period = AnnualMean(103:122,:);
+Period = AnnualMean(indTemp,:);
   
   %Now calculate the mean over the full time period from 1981-2000
 Mean_Period = mean(Period);
@@ -122,6 +123,7 @@ a1 = scatter(stationdata.Year,anMeanTempAnomaly,'filled'); M1 = 'Annual Temperat
 title('Annual Temperature Anomaly', 'FontSize', 20)
 xlabel('Year','FontSize',18)
 ylabel('Annual Temperature Anomaly','FontSize',18)
+% ylim([-4 4])
 
 %% Smooth the data by taking a 5-year running mean of the data to plot
 %This will even out some of the variability you observe in the scatter
@@ -132,7 +134,7 @@ smoothAnMeanTempAnomaly = movmean(anMeanTempAnomaly,5);
 %Now add a line with this smoothed data to the scatter plot
 
 a2 = plot(stationdata.Year,smoothAnMeanTempAnomaly, 'LineWidth', 1.5); M2 = '5 year Running Mean';
-legend([a1;a2], M1,M2);
+
 
 %% Add and plot linear trends for whole time period, and for 1960 to today
 %Here we will use the function polyfit to calculate a linear fit to the data
@@ -141,19 +143,28 @@ legend([a1;a2], M1,M2);
     %use polyfit to calculate the slope and intercept of a best fit line
     %over the entire observational period
 % --> 
-
+p1 = polyfit(stationdata.Year,anMeanTempAnomaly,1);
 
     %also calculate the slope and intercept of a best fit line just from
     %1960 to the end of the observational period
     % Hint: start by finding the index for where 1960 is in the list of
     % years
 % --> 
+ind1960 = find(stationdata.Year >= 1960);
+Period2 = AnnualMean(ind1960,:);
+Years = stationdata.Year;
+p2 = polyfit(Years(ind1960,:), Period2,1);
 
 %Add lines for each of these linear trends on the annual temperature
 %anomaly plot (you can do this either directly using the values in P_all
 %and P_1960on, or using the polyval function). Plot each new line in a
 %different color.
 % -->
+f1 = polyval(p1,stationdata.Year);
+a3 = plot(stationdata.Year,f1,'m-')
+f2 = polyval(p2, Years(ind1960,:));
+a4 = plot(Years(ind1960,:),f2,'c-','LineWidth',4)
 
 %% Add a legend, axis labels, and a title to your temperature anomaly plot
 % --> 
+legend([a1;a2;a3;a4], M1,M2, 'Linear Trend', 'Linear Trend from 1960 on')
