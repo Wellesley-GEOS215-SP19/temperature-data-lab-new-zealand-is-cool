@@ -100,7 +100,7 @@ AnnualMean = mean(tempData,2); %mean(matrix, dimension), if dimension is 2 then 
 
 %Calculate the annual mean temperature over the period from 1981-2000
   %Use the find function to find rows contain data where stationdata.Year is between 1981 and 2000
-indTemp = find(stationdata.Year>1980 & stationdata.Year<2001) %I created a variable here b/c I thought it would make it easier 
+indTemp = find(stationdata.Year>1980 & stationdata.Year<2001); %I created a variable here b/c I thought it would make it easier 
 % to access if the information is needed again
 
 Period = AnnualMean(indTemp,:);
@@ -151,7 +151,7 @@ p1 = polyfit(stationdata.Year,anMeanTempAnomaly,1);
     % years
 % --> 
 ind1960 = find(stationdata.Year >= 1960);
-Period2 = AnnualMean(ind1960,:);
+Period2 = anMeanTempAnomaly(ind1960,:);
 Years = stationdata.Year;
 p2 = polyfit(Years(ind1960,:), Period2,1);
 
@@ -163,7 +163,7 @@ p2 = polyfit(Years(ind1960,:), Period2,1);
 f1 = polyval(p1,stationdata.Year);
 a3 = plot(stationdata.Year,f1,'m-')
 f2 = polyval(p2, Years(ind1960,:));
-a4 = plot(Years(ind1960,:),f2,'c-','LineWidth',4)
+a4 = plot(Years(ind1960,:),f2,'c-','LineWidth',2)
 
 %% Add a legend, axis labels, and a title to your temperature anomaly plot
 % --> 
